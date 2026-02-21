@@ -1,0 +1,58 @@
+from pydantic import BaseModel, HttpUrl
+from typing import Optional
+import uuid
+from datetime import datetime
+
+class TagResponse(BaseModel):
+    id: uuid.UUID
+    name: str
+    category: str
+
+    class Config:
+        from_attributes = True
+
+class RestaurantCreate(BaseModel):
+    name: str
+    country: str
+    city: str
+    area: Optional[str] = None
+    place_url: str
+    price_range: Optional[int] = None
+    notes: Optional[str] = None
+    tag_ids: list[uuid.UUID] = []
+
+class RestaurantUpdate(BaseModel):
+    name: Optional[str] = None
+    country: Optional[str] = None
+    city: Optional[str] = None
+    area: Optional[str] = None
+    place_url: Optional[str] = None
+    price_range: Optional[int] = None
+    notes: Optional[str] = None
+    tag_ids: Optional[list[uuid.UUID]] = None
+
+class RestaurantResponse(BaseModel):
+    id: uuid.UUID
+    user_id: uuid.UUID
+    status: str
+    name: str
+    country: str
+    city: str
+    area: Optional[str]
+    place_url: str
+    price_range: Optional[int]
+    notes: Optional[str]
+    tags: list[TagResponse] = []
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class RestaurantFilters(BaseModel):
+    status: Optional[str] = None
+    country: Optional[str] = None
+    city: Optional[str] = None
+    price_range: Optional[int] = None
+    tag_ids: Optional[list[uuid.UUID]] = None
+    q: Optional[str] = None
