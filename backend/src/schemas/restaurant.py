@@ -1,7 +1,8 @@
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel
 from typing import Optional
 import uuid
 from datetime import datetime
+
 
 class TagResponse(BaseModel):
     id: uuid.UUID
@@ -10,6 +11,20 @@ class TagResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ReviewResponse(BaseModel):
+    id: uuid.UUID
+    restaurant_id: uuid.UUID
+    rating: int
+    review_text: Optional[str]
+    visited_at: Optional[datetime]
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
 
 class RestaurantCreate(BaseModel):
     name: str
@@ -21,6 +36,7 @@ class RestaurantCreate(BaseModel):
     notes: Optional[str] = None
     tag_ids: list[uuid.UUID] = []
 
+
 class RestaurantUpdate(BaseModel):
     name: Optional[str] = None
     country: Optional[str] = None
@@ -30,6 +46,7 @@ class RestaurantUpdate(BaseModel):
     price_range: Optional[int] = None
     notes: Optional[str] = None
     tag_ids: Optional[list[uuid.UUID]] = None
+
 
 class RestaurantResponse(BaseModel):
     id: uuid.UUID
@@ -43,11 +60,13 @@ class RestaurantResponse(BaseModel):
     price_range: Optional[int]
     notes: Optional[str]
     tags: list[TagResponse] = []
+    review: Optional[ReviewResponse] = None
     created_at: datetime
     updated_at: datetime
 
     class Config:
         from_attributes = True
+
 
 class RestaurantFilters(BaseModel):
     status: Optional[str] = None

@@ -5,7 +5,6 @@ from src.repositories.restaurant import RestaurantRepository
 from src.schemas.restaurant import RestaurantCreate, RestaurantUpdate, RestaurantFilters
 from src.models.restaurant import Restaurant
 
-
 class RestaurantService:
     def __init__(self, db: Session):
         self.repo = RestaurantRepository(db)
