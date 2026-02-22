@@ -17,6 +17,7 @@ class Settings(BaseSettings):
 
     # Security
     secret_key: str
+    allowed_origins: str = "http://localhost:5173"
     api_key_prefix: str = "crumbs"
 
 
