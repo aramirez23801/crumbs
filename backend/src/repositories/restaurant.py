@@ -25,13 +25,21 @@ class RestaurantRepository:
         if filters.country:
             query = query.filter(Restaurant.country.ilike(f"%{filters.country}%"))
         if filters.city:
-            query = query.filter(Restaurant.city.ilike(f"%{filters.city}%"))
+            query = query.filter(
+                or_(
+                    Restaurant.city.ilike(f"%{filters.city}%"),
+                    Restaurant.area.ilike(f"%{filters.city}%"),
+                )
+            )
         if filters.price_range:
             query = query.filter(Restaurant.price_range == filters.price_range)
         if filters.q:
             query = query.filter(
                 or_(
                     Restaurant.name.ilike(f"%{filters.q}%"),
+                    Restaurant.city.ilike(f"%{filters.q}%"),
+                    Restaurant.country.ilike(f"%{filters.q}%"),
+                    Restaurant.area.ilike(f"%{filters.q}%"),
                     Restaurant.notes.ilike(f"%{filters.q}%"),
                 )
             )

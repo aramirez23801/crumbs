@@ -61,7 +61,15 @@ export interface MarkTriedData {
 
 export const restaurantsApi = {
   list: async (filters: RestaurantFilters = {}): Promise<Restaurant[]> => {
-    const res = await client.get('/restaurants', { params: filters })
+    const { tag_ids, ...rest } = filters
+    const params = new URLSearchParams()
+    Object.entries(rest).forEach(([k, v]) => {
+      if (v !== undefined && v !== '') params.append(k, String(v))
+    })
+    if (tag_ids && tag_ids.length > 0) {
+      tag_ids.forEach((id) => params.append('tag_ids', id))
+    }
+    const res = await client.get(`/restaurants?${params.toString()}`)
     return res.data
   },
 
@@ -75,7 +83,10 @@ export const restaurantsApi = {
     return res.data
   },
 
-  update: async (id: string, data: Partial<CreateRestaurantData>): Promise<Restaurant> => {
+  update: async (
+    id: string,
+    data: Partial<CreateRestaurantData>
+  ): Promise<Restaurant> => {
     const res = await client.patch(`/restaurants/${id}`, data)
     return res.data
   },
@@ -92,5 +103,5 @@ export const restaurantsApi = {
   markSaved: async (id: string): Promise<Restaurant> => {
     const res = await client.post(`/restaurants/${id}/mark-saved`)
     return res.data
-  },
+  }
 }
