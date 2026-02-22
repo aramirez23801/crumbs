@@ -20,6 +20,7 @@ export interface Restaurant {
   id: string
   user_id: string
   status: 'saved' | 'tried'
+  is_favorite: boolean
   name: string
   country: string
   city: string
@@ -40,6 +41,7 @@ export interface RestaurantFilters {
   price_range?: number
   tag_ids?: string[]
   q?: string
+  is_favorite?: boolean
 }
 
 export interface CreateRestaurantData {
@@ -102,6 +104,11 @@ export const restaurantsApi = {
 
   markSaved: async (id: string): Promise<Restaurant> => {
     const res = await client.post(`/restaurants/${id}/mark-saved`)
+    return res.data
+  },
+
+  toggleFavorite: async (id: string): Promise<Restaurant> => {
+    const res = await client.post(`/restaurants/${id}/toggle-favorite`)
     return res.data
   }
 }

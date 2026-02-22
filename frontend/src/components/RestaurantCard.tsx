@@ -1,6 +1,6 @@
-import { MapPin, ExternalLink } from 'lucide-react'
+import { MapPin, ExternalLink, Star } from 'lucide-react'
 import type { Restaurant } from '../api/restaurants'
-import { priceRangeLabel, starsArray } from '../utils/helpers'
+import { priceRangeLabel, starsArray, formatDate } from '../utils/helpers'
 
 interface RestaurantCardProps {
   restaurant: Restaurant
@@ -8,7 +8,7 @@ interface RestaurantCardProps {
 }
 
 export default function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
-  const { name, city, country, tags, price_range, status, review, place_url } = restaurant
+  const { name, city, country, tags, price_range, status, review, place_url, is_favorite } = restaurant
 
   return (
     <div
@@ -20,9 +20,14 @@ export default function RestaurantCard({ restaurant, onClick }: RestaurantCardPr
       </div>
       <div className="flex-1 p-3 flex flex-col gap-1.5 min-w-0">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-serif font-semibold text-brown-dark text-[15px] leading-tight truncate">
-            {name}
-          </h3>
+          <div className="flex items-center gap-1.5 min-w-0">
+            <h3 className="font-serif font-semibold text-brown-dark text-[15px] leading-tight truncate">
+              {name}
+            </h3>
+            {is_favorite && (
+              <Star size={12} className="text-terracotta fill-terracotta flex-shrink-0" />
+            )}
+          </div>
           <a
             href={place_url}
             target="_blank"
@@ -59,11 +64,18 @@ export default function RestaurantCard({ restaurant, onClick }: RestaurantCardPr
               {priceRangeLabel(price_range)}
             </span>
           )}
-          {status === 'tried' && review && (
-            <span className="text-xs text-terracotta">
-              {starsArray(review.rating)}
-            </span>
-          )}
+          <div className="flex items-center gap-2 ml-auto">
+            {status === 'tried' && review?.visited_at && (
+              <span className="text-xs text-brown-light">
+                {formatDate(review.visited_at)}
+              </span>
+            )}
+            {status === 'tried' && review && (
+              <span className="text-xs text-terracotta">
+                {starsArray(review.rating)}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>

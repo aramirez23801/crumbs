@@ -39,6 +39,16 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
     }
   }
 
+  const handleToggleFavorite = async () => {
+    setLoading(true)
+    try {
+      const updated = await restaurantsApi.toggleFavorite(restaurant.id)
+      onUpdate(updated)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleDelete = async () => {
     setLoading(true)
     try {
@@ -59,12 +69,10 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
         className="bg-cream w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Handle (mobile) */}
         <div className="flex justify-center pt-3 pb-1 sm:hidden">
           <div className="w-9 h-1 bg-[#E8E2DA] rounded-full" />
         </div>
 
-        {/* Image placeholder */}
         <div className="mx-4 mt-2 h-44 rounded-2xl bg-gradient-to-br from-cream-dark to-terracotta-pale flex items-center justify-center text-5xl relative">
           🍽️
           {restaurant.status === 'tried' && (
@@ -81,8 +89,25 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
         </div>
 
         <div className="p-5">
-          {/* Name + location */}
-          <h2 className="font-serif text-2xl font-bold text-brown-dark mb-1">{restaurant.name}</h2>
+          <div className="flex items-start justify-between mb-1">
+            <h2 className="font-serif text-2xl font-bold text-brown-dark">{restaurant.name}</h2>
+            {restaurant.status === 'tried' && (
+              <button
+                onClick={handleToggleFavorite}
+                disabled={loading}
+                className="flex-shrink-0 ml-2 mt-1"
+              >
+                <Star
+                  size={22}
+                  className={restaurant.is_favorite
+                    ? 'text-terracotta fill-terracotta'
+                    : 'text-[#E8E2DA] hover:text-terracotta transition-colors'
+                  }
+                />
+              </button>
+            )}
+          </div>
+
           <div className="flex items-center gap-3 text-sm text-brown-light mb-3">
             <span className="flex items-center gap-1">
               <MapPin size={13} />
@@ -93,7 +118,6 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
             )}
           </div>
 
-          {/* Tags */}
           {restaurant.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {restaurant.tags.map((tag) => (
@@ -111,7 +135,6 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
 
           <div className="h-px bg-[#E8E2DA] mb-4" />
 
-          {/* Details */}
           <div className="flex flex-col gap-3 mb-4">
             <a
               href={restaurant.place_url}
@@ -134,7 +157,6 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
             )}
           </div>
 
-          {/* Review section */}
           {restaurant.status === 'tried' && restaurant.review && !showReviewForm && (
             <>
               <div className="h-px bg-[#E8E2DA] mb-4" />
@@ -162,8 +184,7 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
             </>
           )}
 
-          {/* Mark tried form */}
-          {(showReviewForm || (restaurant.status === 'saved' && showReviewForm)) && (
+          {showReviewForm && (
             <div className="bg-white rounded-2xl p-4 mb-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-brown-light mb-3">Your Review</p>
               <div className="flex gap-1 mb-3">
@@ -201,7 +222,6 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
             </div>
           )}
 
-          {/* Action buttons */}
           <div className="flex gap-2">
             {restaurant.status === 'saved' && !showReviewForm && (
               <button
