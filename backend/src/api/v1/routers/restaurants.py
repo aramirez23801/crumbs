@@ -38,6 +38,7 @@ def list_restaurants(
     price_range: Optional[int] = Query(None),
     tag_ids: Optional[list[uuid.UUID]] = Query(None),
     q: Optional[str] = Query(None),
+    is_favorite: Optional[bool] = Query(None),
     db: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ):
@@ -48,6 +49,7 @@ def list_restaurants(
         price_range=price_range,
         tag_ids=tag_ids,
         q=q,
+        is_favorite=is_favorite,
     )
     service = RestaurantService(db)
     results = service.get_all(user_id=current_user.id, filters=filters)
@@ -82,3 +84,13 @@ def delete_restaurant(
 ):
     service = RestaurantService(db)
     service.delete(restaurant_id, current_user.id)
+
+@router.post("/{restaurant_id}/toggle-favorite", response_model=RestaurantResponse)
+def toggle_favorite(
+    restaurant_id: uuid.UUID,
+    db: Session = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    service = RestaurantService(db)
+    restaurant, tags = service.toggle_favorite(restaurant_id, current_user.id)
+    return build_response(restaurant, tags)

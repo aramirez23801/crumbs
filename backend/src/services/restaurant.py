@@ -46,3 +46,11 @@ class RestaurantService:
         if not restaurant:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Restaurant not found")
         self.repo.delete(restaurant)
+
+    def toggle_favorite(self, restaurant_id: uuid.UUID, user_id: uuid.UUID) -> tuple[Restaurant, list]:
+        restaurant = self.repo.get_by_id(restaurant_id, user_id)
+        if not restaurant:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Restaurant not found")
+        restaurant = self.repo.update(restaurant, {"is_favorite": not restaurant.is_favorite})
+        tags = self.repo.get_tags(restaurant.id)
+        return restaurant, tags

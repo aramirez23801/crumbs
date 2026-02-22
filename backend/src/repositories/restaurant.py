@@ -48,6 +48,8 @@ class RestaurantRepository:
                 query.join(RestaurantTag)
                 .filter(RestaurantTag.tag_id.in_(filters.tag_ids))
             )
+        if filters.is_favorite is not None:
+            query = query.filter(Restaurant.is_favorite == filters.is_favorite)
 
         return query.order_by(Restaurant.created_at.desc()).all()
 

@@ -59,6 +59,7 @@ class RestaurantResponse(BaseModel):
     place_url: str
     price_range: Optional[int]
     notes: Optional[str]
+    is_favorite: bool = False
     tags: list[TagResponse] = []
     review: Optional[ReviewResponse] = None
     created_at: datetime
@@ -75,3 +76,4 @@ class RestaurantFilters(BaseModel):
     price_range: Optional[int] = None
     tag_ids: Optional[list[uuid.UUID]] = None
     q: Optional[str] = None
+    is_favorite: Optional[bool] = None

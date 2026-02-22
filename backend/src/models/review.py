@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Optional
 from sqlalchemy import Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.core.database import Base
 
 
@@ -18,7 +18,6 @@ class Review(Base):
     visited_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True), nullable=True
     )
-
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
@@ -27,4 +26,8 @@ class Review(Base):
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
         onupdate=lambda: datetime.now(timezone.utc),
+    )
+
+    restaurant: Mapped["Restaurant"] = relationship(
+        "Restaurant", back_populates="review"
     )
