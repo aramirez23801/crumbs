@@ -137,7 +137,7 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
 
           <div className="flex flex-col gap-3 mb-4">
             <a
-              href={restaurant.place_url}
+              href={restaurant.google_maps_url}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 text-sm text-terracotta hover:underline"

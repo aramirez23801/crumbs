@@ -8,7 +8,7 @@ interface RestaurantCardProps {
 }
 
 export default function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
-  const { name, city, country, tags, price_range, status, review, place_url, is_favorite } = restaurant
+  const { name, city, country, tags, price_range, status, review, google_maps_url, is_favorite } = restaurant
 
   return (
     <div
@@ -29,7 +29,7 @@ export default function RestaurantCard({ restaurant, onClick }: RestaurantCardPr
             )}
           </div>
           <a
-            href={place_url}
+            href={google_maps_url}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e: React.MouseEvent) => e.stopPropagation()}
