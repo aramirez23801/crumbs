@@ -29,7 +29,7 @@ export default function RestaurantCard({ restaurant, onClick }: RestaurantCardPr
             )}
           </div>
           <a
-            href={google_maps_url}
+            href={google_maps_url ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e: React.MouseEvent) => e.stopPropagation()}
