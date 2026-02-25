@@ -16,6 +16,7 @@ export interface PlaceDetails {
   city: string | null
   area: string | null
   price_range: number | null
+  photo_url: string | null
 }
 
 export const placesApi = {

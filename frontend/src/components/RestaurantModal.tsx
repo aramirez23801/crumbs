@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X, MapPin, ExternalLink, Star, Pencil, Trash2, CheckSquare, Bookmark } from 'lucide-react'
+import { X, MapPin, ExternalLink, Globe, Star, Pencil, Trash2, CheckSquare, Bookmark } from 'lucide-react'
 import type { Restaurant } from '../api/restaurants'
 import { restaurantsApi } from '../api/restaurants'
 import { priceRangeLabel, starsArray, formatDate } from '../utils/helpers'
@@ -136,6 +136,19 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
           <div className="h-px bg-[#E8E2DA] mb-4" />
 
           <div className="flex flex-col gap-3 mb-4">
+            {restaurant.website_url && (
+              <a
+                href={restaurant.website_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm text-terracotta hover:underline"
+              >
+                <div className="w-8 h-8 rounded-lg bg-terracotta-pale flex items-center justify-center flex-shrink-0">
+                  <Globe size={14} className="text-terracotta" />
+                </div>
+                Website
+              </a>
+            )}
             <a
               href={restaurant.google_maps_url ?? undefined}
               target="_blank"
@@ -145,7 +158,7 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
               <div className="w-8 h-8 rounded-lg bg-terracotta-pale flex items-center justify-center flex-shrink-0">
                 <ExternalLink size={14} className="text-terracotta" />
               </div>
-              Open link
+              Google Maps
             </a>
             {restaurant.notes && (
               <div className="flex items-start gap-3 text-sm">

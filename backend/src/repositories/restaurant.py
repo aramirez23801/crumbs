@@ -2,6 +2,7 @@ import uuid
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from src.models.restaurant import Restaurant
+from src.models.review import Review
 from src.models.tag import Tag, RestaurantTag
 from src.schemas.restaurant import RestaurantFilters
 
@@ -70,6 +71,9 @@ class RestaurantRepository:
     def delete(self, restaurant: Restaurant) -> None:
         self.db.query(RestaurantTag).filter(
             RestaurantTag.restaurant_id == restaurant.id
+        ).delete()
+        self.db.query(Review).filter(
+            Review.restaurant_id == restaurant.id
         ).delete()
         self.db.delete(restaurant)
         self.db.commit()

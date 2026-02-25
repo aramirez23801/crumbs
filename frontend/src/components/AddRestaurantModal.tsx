@@ -28,6 +28,7 @@ export default function AddRestaurantModal({
   const [websiteUrl, setWebsiteUrl] = useState('')
   const [googleMapsUrl, setGoogleMapsUrl] = useState('')
   const [googlePlaceId, setGooglePlaceId] = useState('')
+  const [photoUrl, setPhotoUrl] = useState('')
   const [priceRange, setPriceRange] = useState<number | undefined>()
   const [notes, setNotes] = useState('')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
@@ -83,6 +84,7 @@ export default function AddRestaurantModal({
       setWebsiteUrl(details.website_url ?? '')
       setGoogleMapsUrl(details.google_maps_url ?? '')
       setGooglePlaceId(details.place_id)
+      setPhotoUrl(details.photo_url ?? '')
       if (details.price_range) setPriceRange(details.price_range)
       setAutoFilled(true)
     } catch {
@@ -114,6 +116,7 @@ export default function AddRestaurantModal({
         website_url: websiteUrl || undefined,
         google_maps_url: googleMapsUrl || undefined,
         google_place_id: googlePlaceId || undefined,
+        photo_url: photoUrl || undefined,
         price_range: priceRange,
         notes: notes || undefined,
         tag_ids: selectedTags
