@@ -68,6 +68,9 @@ class RestaurantRepository:
         return restaurant
 
     def delete(self, restaurant: Restaurant) -> None:
+        self.db.query(RestaurantTag).filter(
+            RestaurantTag.restaurant_id == restaurant.id
+        ).delete()
         self.db.delete(restaurant)
         self.db.commit()
 
