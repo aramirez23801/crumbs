@@ -28,6 +28,7 @@ export interface Restaurant {
   website_url: string | null
   google_maps_url: string | null
   google_place_id: string | null
+  photo_url: string | null
   price_range: number | null
   notes: string | null
   tags: Tag[]
@@ -54,6 +55,7 @@ export interface CreateRestaurantData {
   website_url?: string
   google_maps_url?: string
   google_place_id?: string
+  photo_url?: string
   price_range?: number
   notes?: string
   tag_ids?: string[]

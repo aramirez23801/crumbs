@@ -25,6 +25,7 @@ class Restaurant(Base):
     website_url: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     google_maps_url: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     google_place_id: Mapped[Optional[str]] = mapped_column(String, nullable=True, index=True)
+    photo_url: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     price_range: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     notes: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     is_favorite: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")

@@ -34,6 +34,7 @@ class RestaurantCreate(BaseModel):
     website_url: Optional[str] = None
     google_maps_url: Optional[str] = None
     google_place_id: Optional[str] = None
+    photo_url: Optional[str] = None
     price_range: Optional[int] = None
     notes: Optional[str] = None
     tag_ids: list[uuid.UUID] = []
@@ -47,6 +48,7 @@ class RestaurantUpdate(BaseModel):
     website_url: Optional[str] = None
     google_maps_url: Optional[str] = None
     google_place_id: Optional[str] = None
+    photo_url: Optional[str] = None
     price_range: Optional[int] = None
     notes: Optional[str] = None
     tag_ids: Optional[list[uuid.UUID]] = None
@@ -63,6 +65,7 @@ class RestaurantResponse(BaseModel):
     website_url: Optional[str] = None
     google_maps_url: Optional[str] = None
     google_place_id: Optional[str] = None
+    photo_url: Optional[str] = None
     price_range: Optional[int]
     notes: Optional[str]
     is_favorite: bool = False

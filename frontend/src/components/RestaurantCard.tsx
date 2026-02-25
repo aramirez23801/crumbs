@@ -1,4 +1,4 @@
-import { MapPin, ExternalLink, Star } from 'lucide-react'
+import { MapPin, ExternalLink, Star, Globe } from 'lucide-react'
 import type { Restaurant } from '../api/restaurants'
 import { priceRangeLabel, starsArray, formatDate } from '../utils/helpers'
 
@@ -8,16 +8,20 @@ interface RestaurantCardProps {
 }
 
 export default function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
-  const { name, city, country, tags, price_range, status, review, google_maps_url, is_favorite } = restaurant
+  const { name, city, country, tags, price_range, status, review, google_maps_url, website_url, photo_url, is_favorite } = restaurant
 
   return (
     <div
       onClick={onClick}
       className="bg-white rounded-2xl border border-[#E8E2DA]/60 shadow-sm flex overflow-hidden cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
     >
-      <div className="w-24 flex-shrink-0 bg-gradient-to-br from-cream-dark to-terracotta-pale flex items-center justify-center text-3xl">
-        🍽️
-      </div>
+      {photo_url ? (
+        <img src={photo_url} alt={name} className="w-24 flex-shrink-0 object-cover" />
+      ) : (
+        <div className="w-24 flex-shrink-0 bg-gradient-to-br from-cream-dark to-terracotta-pale flex items-center justify-center text-3xl">
+          🍽️
+        </div>
+      )}
       <div className="flex-1 p-3 flex flex-col gap-1.5 min-w-0">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-1.5 min-w-0">
@@ -28,15 +32,28 @@ export default function RestaurantCard({ restaurant, onClick }: RestaurantCardPr
               <Star size={12} className="text-terracotta fill-terracotta flex-shrink-0" />
             )}
           </div>
-          <a
-            href={google_maps_url ?? undefined}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e: React.MouseEvent) => e.stopPropagation()}
-            className="text-brown-light hover:text-terracotta transition-colors flex-shrink-0 mt-0.5"
-          >
-            <ExternalLink size={13} />
-          </a>
+          <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
+            {website_url && (
+              <a
+                href={website_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                className="text-brown-light hover:text-terracotta transition-colors"
+              >
+                <Globe size={13} />
+              </a>
+            )}
+            <a
+              href={google_maps_url ?? undefined}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
+              className="text-brown-light hover:text-terracotta transition-colors"
+            >
+              <ExternalLink size={13} />
+            </a>
+          </div>
         </div>
         <div className="flex items-center gap-1 text-xs text-brown-light">
           <MapPin size={11} />

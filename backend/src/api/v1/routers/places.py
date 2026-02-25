@@ -45,7 +45,7 @@ async def get_place_details(place_id: str):
             "https://maps.googleapis.com/maps/api/place/details/json",
             params={
                 "place_id": place_id,
-                "fields": "name,website,url,formatted_address,address_components,price_level,geometry",
+                "fields": "name,website,url,formatted_address,address_components,price_level,geometry,photos",
                 "key": settings.google_places_api_key,
             },
         )
@@ -63,6 +63,13 @@ async def get_place_details(place_id: str):
     price_map = {0: 1, 1: 1, 2: 2, 3: 3, 4: 4}
     price_level = result.get("price_level")
 
+    photos = result.get("photos", [])
+    photo_ref = photos[0]["photo_reference"] if photos else None
+    photo_url = (
+        f"https://maps.googleapis.com/maps/api/place/photo"
+        f"?maxwidth=800&photoreference={photo_ref}&key={settings.google_places_api_key}"
+    ) if photo_ref else None
+
     return {
         "place_id": place_id,
         "name": result.get("name"),
@@ -72,4 +79,5 @@ async def get_place_details(place_id: str):
         "city": components.get("locality") or components.get("administrative_area_level_2"),
         "area": components.get("sublocality") or components.get("neighborhood"),
         "price_range": price_map.get(price_level) if price_level is not None else None,
+        "photo_url": photo_url,
     }
