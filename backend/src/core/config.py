@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -20,5 +21,7 @@ class Settings(BaseSettings):
     allowed_origins: str = "http://localhost:5173"
     api_key_prefix: str = "crumbs"
 
+    # Google Places
+    google_places_api_key: Optional[str] = None
 
 settings = Settings()

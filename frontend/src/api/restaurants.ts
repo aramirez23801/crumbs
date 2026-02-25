@@ -25,7 +25,9 @@ export interface Restaurant {
   country: string
   city: string
   area: string | null
-  place_url: string
+  website_url: string | null
+  google_maps_url: string | null
+  google_place_id: string | null
   price_range: number | null
   notes: string | null
   tags: Tag[]
@@ -49,7 +51,9 @@ export interface CreateRestaurantData {
   country: string
   city: string
   area?: string
-  place_url: string
+  website_url?: string
+  google_maps_url?: string
+  google_place_id?: string
   price_range?: number
   notes?: string
   tag_ids?: string[]
@@ -74,17 +78,14 @@ export const restaurantsApi = {
     const res = await client.get(`/restaurants?${params.toString()}`)
     return res.data
   },
-
   get: async (id: string): Promise<Restaurant> => {
     const res = await client.get(`/restaurants/${id}`)
     return res.data
   },
-
   create: async (data: CreateRestaurantData): Promise<Restaurant> => {
     const res = await client.post('/restaurants', data)
     return res.data
   },
-
   update: async (
     id: string,
     data: Partial<CreateRestaurantData>
@@ -92,21 +93,17 @@ export const restaurantsApi = {
     const res = await client.patch(`/restaurants/${id}`, data)
     return res.data
   },
-
   delete: async (id: string): Promise<void> => {
     await client.delete(`/restaurants/${id}`)
   },
-
   markTried: async (id: string, data: MarkTriedData): Promise<Restaurant> => {
     const res = await client.post(`/restaurants/${id}/mark-tried`, data)
     return res.data
   },
-
   markSaved: async (id: string): Promise<Restaurant> => {
     const res = await client.post(`/restaurants/${id}/mark-saved`)
     return res.data
   },
-
   toggleFavorite: async (id: string): Promise<Restaurant> => {
     const res = await client.post(`/restaurants/${id}/toggle-favorite`)
     return res.data
