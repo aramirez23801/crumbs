@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { UtensilsCrossed } from 'lucide-react'
 import Layout from '../components/Layout'
 import RestaurantCard from '../components/RestaurantCard'
 import FilterBar from '../components/FilterBar'
@@ -85,7 +86,11 @@ export default function TriedPage() {
         </div>
       ) : restaurants.length === 0 ? (
         <div className='text-center py-16'>
-          <p className='text-4xl mb-3'>✅</p>
+          <div className='flex justify-center mb-4'>
+            <div className='w-20 h-20 rounded-full bg-terracotta-pale flex items-center justify-center'>
+              <UtensilsCrossed size={36} className='text-brown-mid' strokeWidth={1.5} />
+            </div>
+          </div>
           <p className='font-serif text-lg text-brown-dark mb-1'>
             No tried places yet
           </p>
