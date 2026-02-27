@@ -2,28 +2,8 @@ from pydantic import BaseModel
 from typing import Optional
 import uuid
 from datetime import datetime
-
-
-class TagResponse(BaseModel):
-    id: uuid.UUID
-    name: str
-    category: str
-
-    class Config:
-        from_attributes = True
-
-
-class ReviewResponse(BaseModel):
-    id: uuid.UUID
-    restaurant_id: uuid.UUID
-    rating: int
-    review_text: Optional[str]
-    visited_at: Optional[datetime]
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True
+from src.schemas.tag import TagResponse
+from src.schemas.review import ReviewResponse
 
 
 class RestaurantCreate(BaseModel):

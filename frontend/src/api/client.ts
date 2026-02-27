@@ -16,11 +16,17 @@ client.interceptors.request.use((config) => {
   return config
 })
 
-// If 401, clear stored key and redirect to login
+// If 401 on a protected request, clear stored key and redirect to login.
+// Skip the redirect on auth pages so the form can display the error itself.
+const AUTH_PATHS = ['/login', '/forgot-password', '/reset-password']
+
 client.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    if (
+      error.response?.status === 401 &&
+      !AUTH_PATHS.some((p) => window.location.pathname.startsWith(p))
+    ) {
       localStorage.removeItem('crumbs_api_key')
       window.location.href = '/login'
     }

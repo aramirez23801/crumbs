@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 import { authApi } from '../api/auth'
 import { useAuthStore } from '../store/authStore'
@@ -26,7 +26,12 @@ export default function LoginPage() {
       navigate('/saved')
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.detail ?? 'Something went wrong')
+        if (err.response?.status === 422) {
+          setError('Please enter a valid email address.')
+        } else {
+          const detail = err.response?.data?.detail
+          setError(typeof detail === 'string' ? detail : 'Something went wrong')
+        }
       } else {
         setError('Something went wrong')
       }
@@ -113,6 +118,13 @@ export default function LoginPage() {
               className='w-full px-4 py-3 rounded-xl border border-[#E8E2DA] bg-white text-brown-dark placeholder-brown-light/60 text-sm outline-none focus:border-terracotta transition-colors'
               onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
             />
+            {mode === 'login' && (
+              <div className='flex justify-end mt-1.5'>
+                <Link to='/forgot-password' className='text-xs text-brown-light hover:text-brown-dark transition-colors'>
+                  Forgot password?
+                </Link>
+              </div>
+            )}
           </div>
 
           {error && (

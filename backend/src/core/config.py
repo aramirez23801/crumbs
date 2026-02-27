@@ -23,5 +23,10 @@ class Settings(BaseSettings):
 
     # Google Places
     google_places_api_key: Optional[str] = None
+    
+    # Email
+    resend_api_key: Optional[str] = None
+    email_from: str = "onboarding@resend.dev"
+    frontend_url: str = "http://localhost:5173"
 
 settings = Settings()

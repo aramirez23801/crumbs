@@ -31,3 +31,7 @@ class UserRepository:
 
     def username_exists(self, username: str) -> bool:
         return self.db.query(User).filter(User.username == username).first() is not None
+
+    def update_password(self, user: User, password_hash: str) -> None:
+        user.password_hash = password_hash
+        self.db.commit()
