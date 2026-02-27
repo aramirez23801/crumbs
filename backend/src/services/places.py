@@ -75,7 +75,7 @@ class PlacesService:
             google_maps_url=result.get("url"),
             country=components.get("country"),
             city=components.get("locality") or components.get("administrative_area_level_2"),
-            area=components.get("sublocality") or components.get("neighborhood"),
+            area=components.get("sublocality_level_1") or components.get("sublocality") or components.get("neighborhood"),
             price_range=price_map.get(price_level) if price_level is not None else None,
             photo_url=photo_url,
         )
