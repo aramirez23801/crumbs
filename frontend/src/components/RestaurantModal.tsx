@@ -73,8 +73,12 @@ export default function RestaurantModal({ restaurant, onClose, onUpdate, onDelet
           <div className="w-9 h-1 bg-[#E8E2DA] rounded-full" />
         </div>
 
-        <div className="mx-4 mt-2 h-44 rounded-2xl bg-gradient-to-br from-cream-dark to-terracotta-pale flex items-center justify-center text-5xl relative">
-          🍽️
+        <div className="mx-4 mt-2 h-44 rounded-2xl bg-gradient-to-br from-cream-dark to-terracotta-pale flex items-center justify-center text-5xl relative overflow-hidden">
+          {restaurant.photo_url ? (
+            <img src={restaurant.photo_url} alt={restaurant.name} className="absolute inset-0 w-full h-full object-cover" />
+          ) : (
+            '🍽️'
+          )}
           {restaurant.status === 'tried' && (
             <span className="absolute top-3 right-3 bg-olive text-white text-xs font-semibold px-3 py-1 rounded-full">
               ✓ Tried

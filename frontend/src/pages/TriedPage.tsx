@@ -51,6 +51,15 @@ export default function TriedPage() {
     setSelected(null)
   }
 
+  const handleToggleFavorite = async (id: string) => {
+    try {
+      const updated = await restaurantsApi.toggleFavorite(id)
+      setRestaurants((prev) => prev.map((r) => (r.id === updated.id ? updated : r)))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const handleDelete = (id: string) => {
     setRestaurants((prev) => prev.filter((r) => r.id !== id))
   }
@@ -91,6 +100,7 @@ export default function TriedPage() {
               key={r.id}
               restaurant={r}
               onClick={() => setSelected(r)}
+              onToggleFavorite={() => handleToggleFavorite(r.id)}
             />
           ))}
         </div>

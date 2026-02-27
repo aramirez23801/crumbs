@@ -5,9 +5,10 @@ import { priceRangeLabel, starsArray, formatDate } from '../utils/helpers'
 interface RestaurantCardProps {
   restaurant: Restaurant
   onClick: () => void
+  onToggleFavorite?: () => void
 }
 
-export default function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
+export default function RestaurantCard({ restaurant, onClick, onToggleFavorite }: RestaurantCardProps) {
   const { name, city, country, tags, price_range, status, review, google_maps_url, website_url, photo_url, is_favorite } = restaurant
 
   return (
@@ -53,6 +54,17 @@ export default function RestaurantCard({ restaurant, onClick }: RestaurantCardPr
             >
               <ExternalLink size={13} />
             </a>
+            {status === 'tried' && onToggleFavorite && (
+              <button
+                onClick={(e: React.MouseEvent) => { e.stopPropagation(); onToggleFavorite() }}
+                className="text-brown-light hover:text-terracotta transition-colors"
+              >
+                <Star
+                  size={13}
+                  className={is_favorite ? 'text-terracotta fill-terracotta' : ''}
+                />
+              </button>
+            )}
           </div>
         </div>
         <div className="flex items-center gap-1 text-xs text-brown-light">

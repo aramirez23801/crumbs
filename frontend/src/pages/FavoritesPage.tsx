@@ -52,6 +52,19 @@ export default function FavoritesPage() {
     setSelected(null)
   }
 
+  const handleToggleFavorite = async (id: string) => {
+    try {
+      const updated = await restaurantsApi.toggleFavorite(id)
+      if (!updated.is_favorite) {
+        setRestaurants((prev) => prev.filter((r) => r.id !== updated.id))
+      } else {
+        setRestaurants((prev) => prev.map((r) => (r.id === updated.id ? updated : r)))
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const handleDelete = (id: string) => {
     setRestaurants((prev) => prev.filter((r) => r.id !== id))
   }
@@ -92,6 +105,7 @@ export default function FavoritesPage() {
               key={r.id}
               restaurant={r}
               onClick={() => setSelected(r)}
+              onToggleFavorite={() => handleToggleFavorite(r.id)}
             />
           ))}
         </div>
