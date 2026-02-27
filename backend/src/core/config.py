@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     
     # Email
     resend_api_key: Optional[str] = None
-    email_from: str = "onboarding@resend.dev"
+    email_from: str
     frontend_url: str = "http://localhost:5173"
 
 settings = Settings()
